@@ -43,13 +43,30 @@ header {
 
 .user-info {
     position: absolute;
-    right: 20px; /* Jarak dari sisi kanan */
-    top: 50%; /* Pusatkan vertikal */
-    transform: translateY(-50%); /* Pusatkan vertikal */
+    right: 60px; /* Geser lebih ke kiri agar "Admin" terlihat dengan baik */
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: 10px;
+    background-color: #006400; /* Warna sama dengan header */
+    color: #fff; /* Warna teks putih agar kontras */
+    padding: 8px 15px; /* Tambahkan padding agar lebih nyaman dilihat */
+    border-radius: 5px; /* Tambahkan sedikit border radius */
 }
+
+
+
+.user-info i {
+    font-size: 16px;
+}
+
+.user-info span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
 
 .sidebar-toggle {
     display: none; /* Sembunyikan tombol toggle di desktop */

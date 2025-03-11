@@ -11,14 +11,14 @@
 <body>
     <!-- Header -->
     <header>
-    <div class="header-content">
-        <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
-        <h1>Sistem Informasi Tesis dan Disertasi</h1>
-        <div class="user-info">
-            <i class="fas fa-user"></i>
-            <span>Admin</span>
+        <div class="header-content">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1>Sistem Informasi Tesis dan Disertasi</h1>
+            <div class="user-info">
+                <i class="fas fa-user"></i>
+                <span>Admin</span>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
