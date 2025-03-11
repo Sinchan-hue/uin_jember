@@ -1,0 +1,630 @@
+/* Gaya Umum */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #006400; /* Hijau gelap Kemenag */
+    color: #fff;
+    padding: 15px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Pastikan header di atas elemen lain */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between; /* Distribusikan ruang secara merata */
+    align-items: center; /* Pusatkan vertikal */
+    width: 100%;
+}
+
+.header-content h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: auto; /* Geser h1 ke kiri, buat ruang untuk .user-info */
+}
+
+.header-content .user-info {
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Jarak dari sisi kiri */
+}
+
+.user-info {
+    position: absolute;
+    right: 20px; /* Jarak dari sisi kanan */
+    top: 50%; /* Pusatkan vertikal */
+    transform: translateY(-50%); /* Pusatkan vertikal */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-toggle {
+    display: none; /* Sembunyikan tombol toggle di desktop */
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #228B22; /* Hijau forest Kemenag */
+    color: #fff;
+    height: calc(100vh - 60px); /* Tinggi sidebar dikurangi tinggi header */
+    position: fixed;
+    top: 60px; /* Sesuaikan dengan tinggi header */
+    left: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Tambahkan scroll jika konten terlalu panjang */
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar nav ul li {
+    margin: 0;
+}
+
+.sidebar nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #006400; /* Hijau gelap Kemenag */
+}
+
+.sidebar nav ul li a i {
+    margin-right: 10px;
+}
+
+/* Konten Utama */
+.content {
+    margin-left: 250px; /* Sesuaikan dengan lebar sidebar */
+    padding: 80px 20px 20px; /* Padding atas disesuaikan dengan tinggi header */
+    flex: 1;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Footer */
+/* Gaya untuk Footer */
+footer {
+    background-color: #006400; /* Warna hijau gelap */
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: auto;
+    position: relative;
+    z-index: 1000; /* Pastikan footer di atas elemen lain */
+    border-top: 2px solid white; /* Garis putih di bagian atas footer */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Responsif untuk Perangkat Mobile */
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        display: block; /* Tampilkan tombol toggle di mobile */
+    }
+
+    .sidebar {
+        transform: translateX(-100%); /* Sembunyikan sidebar di mobile */
+    }
+
+    .sidebar.active {
+        transform: translateX(0); /* Tampilkan sidebar saat aktif */
+    }
+
+    .content {
+        margin-left: 0; /* Hilangkan margin kiri di mobile */
+    }
+}
+
+/* Gaya Tabel */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #90EE90; /* Hijau muda untuk header tabel */
+    color: #333; /* Warna teks header tabel */
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    font-weight: bold;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1; /* Warna hover */
+    transition: background-color 0.3s ease;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Warna baris genap */
+}
+
+table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+table th, table td {
+    border-right: 1px solid #ddd;
+}
+table th:last-child, table td:last-child {
+    border-right: none;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #f1f1f1;
+}
+
+/* Tombol */
+.btn-tambah, .btn-edit, .btn-hapus, .btn-simpan, .btn-batal {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-tambah {
+    background-color: #28a745;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.btn-tambah:hover {
+    background-color: #218838;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-hapus {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-hapus:hover {
+    background-color: #c82333;
+}
+
+.btn-simpan {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-simpan:hover {
+    background-color: #0056b3;
+}
+
+.btn-batal {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-batal:hover {
+    background-color: #5a6268;
+}
+
+/* Form */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Form Pencarian dan Tombol Tambah Data */
+.search-and-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px; /* Jarak antara form pencarian dan tombol */
+}
+
+.search-and-add form {
+    flex: 1; /* Form pencarian mengambil sisa ruang yang tersedia */
+    display: flex;
+    gap: 10px;
+}
+
+.search-and-add form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.search-and-add form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-and-add form button:hover {
+    background-color: #218838;
+}
+
+.btn-tambah {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    white-space: nowrap; /* Mencegah teks tombol terpotong */
+}
+
+.btn-tambah:hover {
+    background-color: #0056b3;
+}
+
+/* Form Pencarian */
+.search-form {
+    display: flex;
+    gap: 10px; /* Jarak antara input dan tombol */
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #007bff; /* Warna border biru */
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none; /* Hilangkan outline saat focus */
+    transition: border-color 0.3s ease;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #0056b3; /* Warna border biru lebih gelap saat focus */
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Warna background biru */
+    color: #fff; /* Warna teks putih */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Jarak antara ikon dan teks */
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #0056b3; /* Warna background biru lebih gelap saat hover */
+}
+
+.search-form button i {
+    font-size: 18px; /* Ukuran ikon */
+}
+
+.search-form {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Gaya untuk textarea */
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #007bff; /* Warna border biru */
+    border-radius: 4px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    outline: none; /* Hilangkan outline saat focus */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical; /* Izinkan resize vertikal */
+}
+
+textarea:focus {
+    border-color: #0056b3; /* Warna border biru lebih gelap saat focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efek shadow saat focus */
+}
+
+textarea:hover {
+    border-color: #0056b3; /* Warna border biru lebih gelap saat hover */
+}
+
+/* Form Pencarian dan Tombol Tambah Data */
+.search-and-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px; /* Jarak antara form pencarian dan tombol */
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #0056b3;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+.btn-tambah {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+.btn-tambah:hover {
+    background-color: #218838;
+}
+
+/* Tabel */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table thead {
+    background-color: #007bff;
+    color: #fff;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    font-weight: bold;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 8px 16px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #f1f1f1;
+}
+
+/* Atur tinggi Select2 */
+.select2-container .select2-selection--single {
+    height: 40px; /* Tinggi yang sama dengan <select> */
+    display: flex;
+    align-items: center; /* Pusatkan teks secara vertikal */
+}
+
+/* Atur tinggi input Select2 */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px; /* Sesuaikan dengan tinggi */
+}
+
+/* Atur tinggi dropdown arrow */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px; /* Sesuaikan dengan tinggi */
+}
+
+/* Gaya untuk form-group */
+.form-group {
+    margin-bottom: 15px; /* Jarak antar form-group */
+}
+
+/* Gaya untuk label */
+.form-group label {
+    display: block; /* Label di atas input */
+    margin-bottom: 5px; /* Jarak antara label dan input */
+    font-weight: bold;
+}
+
+/* Gaya untuk input, textarea, dan select */
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%; /* Lebar 100% dari parent */
+    padding: 8px; /* Padding untuk kenyamanan */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 4px; /* Sudut melengkung */
+    box-sizing: border-box; /* Pastikan padding tidak memengaruhi lebar */
+    font-size: 14px; /* Ukuran font */
+}
+
+/* Gaya khusus untuk textarea */
+.form-group textarea {
+    resize: vertical; /* Izinkan resize vertikal */
+}
+
+/* Gaya untuk tombol */
+.btn-simpan, .btn-batal {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px; /* Jarak antar tombol */
+}
+
+.btn-simpan {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-simpan:hover {
+    background-color: #0056b3;
+}
+
+.btn-batal {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-batal:hover {
+    background-color: #5a6268;
+}
