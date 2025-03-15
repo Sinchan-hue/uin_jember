@@ -13,14 +13,14 @@ $start = ($page > 1) ? ($page * $limit) - $limit : 0;
 
 // Pencarian
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$searchCondition = $search ? "WHERE nama LIKE '%$search%' OR nim LIKE '%$search%' OR email LIKE '%$search%' OR telepon LIKE '%$search%'" : '';
+$searchCondition = $search ? "WHERE username LIKE '%$search%' OR nama LIKE '%$search%' OR role LIKE '%$search%'" : '';
 
-// Query untuk mengambil data mahasiswa
-$query = "SELECT * FROM mahasiswa $searchCondition LIMIT $start, $limit";
+// Query untuk mengambil data user
+$query = "SELECT * FROM user $searchCondition LIMIT $start, $limit";
 $result = $koneksi->query($query);
 
 // Query untuk menghitung total data
-$totalQuery = "SELECT COUNT(*) as total FROM mahasiswa $searchCondition";
+$totalQuery = "SELECT COUNT(*) as total FROM user $searchCondition";
 $totalResult = $koneksi->query($totalQuery);
 $totalData = $totalResult->fetch_assoc()['total'];
 $totalPages = ceil($totalData / $limit);
@@ -28,26 +28,28 @@ $totalPages = ceil($totalData / $limit);
 // Handle CRUD operations
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['add'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password']; // Password tanpa enkripsi
         $nama = $_POST['nama'];
-        $nim = $_POST['nim'];
-        $email = $_POST['email'];
-        $telepon = $_POST['telepon'];
-        $sql = "INSERT INTO mahasiswa (nama, nim, email, telepon) VALUES ('$nama', '$nim', '$email', '$telepon')";
+        $role = $_POST['role'];
+        $sql = "INSERT INTO user (username, password, nama, role) VALUES ('$username', '$password', '$nama', '$role')";
         $koneksi->query($sql);
     } elseif (isset($_POST['edit'])) {
-        $id_mahasiswa = $_POST['id_mahasiswa'];
+        $id = $_POST['id'];
+        $username = $_POST['username'];
+        $password = $_POST['password']; // Password tanpa enkripsi
         $nama = $_POST['nama'];
-        $nim = $_POST['nim'];
-        $email = $_POST['email'];
-        $telepon = $_POST['telepon'];
-        $sql = "UPDATE mahasiswa SET nama='$nama', nim='$nim', email='$email', telepon='$telepon' WHERE id_mahasiswa=$id_mahasiswa";
+        $role = $_POST['role'];
+        // Update password hanya jika diisi
+        $passwordUpdate = $password ? ", password='$password'" : "";
+        $sql = "UPDATE user SET username='$username', nama='$nama', role='$role' $passwordUpdate WHERE id=$id";
         $koneksi->query($sql);
     } elseif (isset($_POST['delete'])) {
-        $id_mahasiswa = $_POST['id_mahasiswa'];
-        $sql = "DELETE FROM mahasiswa WHERE id_mahasiswa=$id_mahasiswa";
+        $id = $_POST['id'];
+        $sql = "DELETE FROM user WHERE id=$id";
         $koneksi->query($sql);
     }
-    header("Location: crud_mahasiswa.php");
+    header("Location: crud_user.php");
     exit();
 }
 ?>
@@ -57,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Mahasiswa</title>
+    <title>CRUD User</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -101,43 +103,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <main class="content">
         <div class="container">
-            <h2>Data Mahasiswa</h2>
+            <h2>Data User</h2>
 
             <!-- Form Pencarian dan Tombol Tambah Data -->
             <div class="search-and-add">
-                <form method="GET" action="crud_mahasiswa.php" class="search-form">
+                <form method="GET" action="crud_user.php" class="search-form">
                     <input type="text" name="search" placeholder="Cari..." value="<?php echo $search; ?>">
                     <button type="submit"><i class="fas fa-search"></i> Cari</button>
                 </form>
-                <button onclick="openAddModal()" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Mahasiswa</button>
+                <button onclick="openAddModal()" class="btn-tambah"><i class="fas fa-plus"></i> Tambah User</button>
             </div>
 
-            <!-- Tabel Data Mahasiswa -->
+            <!-- Tabel Data User -->
             <table>
                 <thead>
                     <tr>
-                        <th>ID Mahasiswa</th>
+                        <th>ID</th>
+                        <th>Username</th>
                         <th>Nama</th>
-                        <th>NIM</th>
-                        <th>Email</th>
-                        <th>Telepon</th>
+                        <th>Role</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($row = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?php echo $row['id_mahasiswa']; ?></td>
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['username']; ?></td>
                         <td><?php echo $row['nama']; ?></td>
-                        <td><?php echo $row['nim']; ?></td>
-                        <td><?php echo $row['email']; ?></td>
-                        <td><?php echo $row['telepon']; ?></td>
+                        <td><?php echo $row['role']; ?></td>
                         <td>
-                            <form method="POST" action="crud_mahasiswa.php" style="display:inline;">
-                                <input type="hidden" name="id_mahasiswa" value="<?php echo $row['id_mahasiswa']; ?>">
+                            <form method="POST" action="crud_user.php" style="display:inline;">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                                 <button type="submit" name="delete" class="btn-hapus"><i class="fas fa-trash"></i></button>
                             </form>
-                            <button onclick="openEditModal(<?php echo $row['id_mahasiswa']; ?>, '<?php echo $row['nama']; ?>', '<?php echo $row['nim']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['telepon']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
+                            <button onclick="openEditModal(<?php echo $row['id']; ?>, '<?php echo $row['username']; ?>', '<?php echo $row['nama']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['password']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
                         </td>
                     </tr>
                     <?php endwhile; ?>
@@ -156,24 +156,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <h2 id="modalTitle">Tambah Mahasiswa</h2>
-                <form method="POST" action="crud_mahasiswa.php">
-                    <input type="hidden" name="id_mahasiswa" id="modalIdMahasiswa">
+                <h2 id="modalTitle">Tambah User</h2>
+                <form method="POST" action="crud_user.php">
+                    <input type="hidden" name="id" id="modalId">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" id="modalUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="text" name="password" id="modalPassword"> <!-- Ubah type menjadi text -->
+                    </div>
                     <div class="form-group">
                         <label for="nama">Nama:</label>
                         <input type="text" name="nama" id="modalNama" required>
                     </div>
                     <div class="form-group">
-                        <label for="nim">NIM:</label>
-                        <input type="text" name="nim" id="modalNim" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" name="email" id="modalEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="telepon">Telepon:</label>
-                        <input type="text" name="telepon" id="modalTelepon">
+                        <label for="role">Role:</label>
+                        <select name="role" id="modalRole" required>
+                            <option value="admin">Admin</option>
+                            <option value="dosen">Dosen</option>
+                            <option value="mahasiswa">Mahasiswa</option>
+                        </select>
                     </div>
                     <button type="submit" name="add" id="modalSubmit" class="btn-simpan">Simpan</button>
                     <button type="button" onclick="closeModal()" class="btn-batal">Batal</button>
@@ -187,24 +191,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         // Fungsi untuk membuka modal tambah data
         function openAddModal() {
-            document.getElementById('modalTitle').innerText = 'Tambah Mahasiswa';
-            document.getElementById('modalIdMahasiswa').value = '';
+            document.getElementById('modalTitle').innerText = 'Tambah User';
+            document.getElementById('modalId').value = '';
+            document.getElementById('modalUsername').value = '';
+            document.getElementById('modalPassword').value = '';
             document.getElementById('modalNama').value = '';
-            document.getElementById('modalNim').value = '';
-            document.getElementById('modalEmail').value = '';
-            document.getElementById('modalTelepon').value = '';
+            document.getElementById('modalRole').value = 'admin';
             document.getElementById('modalSubmit').name = 'add';
             document.getElementById('modal').style.display = 'flex';
         }
 
         // Fungsi untuk membuka modal edit data
-        function openEditModal(id_mahasiswa, nama, nim, email, telepon) {
-            document.getElementById('modalTitle').innerText = 'Edit Mahasiswa';
-            document.getElementById('modalIdMahasiswa').value = id_mahasiswa;
+        function openEditModal(id, username, nama, role, password) {
+            document.getElementById('modalTitle').innerText = 'Edit User';
+            document.getElementById('modalId').value = id;
+            document.getElementById('modalUsername').value = username;
+            document.getElementById('modalPassword').value = password; // Tampilkan password
             document.getElementById('modalNama').value = nama;
-            document.getElementById('modalNim').value = nim;
-            document.getElementById('modalEmail').value = email;
-            document.getElementById('modalTelepon').value = telepon;
+            document.getElementById('modalRole').value = role;
             document.getElementById('modalSubmit').name = 'edit';
             document.getElementById('modal').style.display = 'flex';
         }

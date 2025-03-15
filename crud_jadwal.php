@@ -1,4 +1,9 @@
 <?php
+session_start(); // Mulai session di sini
+if (!isset($_SESSION['user_id'])) { // Periksa apakah user sudah login
+    header("Location: login.php"); // Redirect ke halaman login jika belum
+    exit();
+}
 include 'koneksi.php';
 
 // Pagination
@@ -151,11 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $row['tempat']; ?></td>
                         <td><?php echo $row['status']; ?></td>
                         <td>
+                            <button onclick="openEditModal(<?php echo $row['id_jadwal']; ?>, '<?php echo $row['id_tesis']; ?>', '<?php echo $row['tanggal']; ?>', '<?php echo $row['waktu']; ?>', '<?php echo $row['tempat']; ?>', '<?php echo $row['status']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
                             <form method="POST" action="crud_jadwal.php" style="display:inline;">
                                 <input type="hidden" name="id_jadwal" value="<?php echo $row['id_jadwal']; ?>">
                                 <button type="submit" name="delete" class="btn-hapus"><i class="fas fa-trash"></i></button>
-                            </form>
-                            <button onclick="openEditModal(<?php echo $row['id_jadwal']; ?>, '<?php echo $row['id_tesis']; ?>', '<?php echo $row['tanggal']; ?>', '<?php echo $row['waktu']; ?>', '<?php echo $row['tempat']; ?>', '<?php echo $row['status']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
+                            </form>                            
                         </td>
                     </tr>
                     <?php endwhile; ?>
@@ -229,26 +234,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Fungsi untuk membuka modal tambah data
         function openAddModal() {
             document.getElementById('modalTitle').innerText = 'Tambah Jadwal Sidang';
-            document.getElementById('modalIdJadwal').value = '';
-            document.getElementById('modalIdTesis').value = '';
-            document.getElementById('modalTanggal').value = '';
-            document.getElementById('modalWaktu').value = '';
-            document.getElementById('modalTempat').value = '';
-            document.getElementById('modalStatus').value = 'terjadwal';
-            document.getElementById('modalSubmit').name = 'add';
+            document.getElementById('modalIdJadwal').value = ''; // Kosongkan nilai id_jadwal
+            document.getElementById('modalTanggal').value = ''; // Kosongkan tanggal
+            document.getElementById('modalWaktu').value = ''; // Kosongkan waktu
+            document.getElementById('modalTempat').value = ''; // Kosongkan tempat
+            document.getElementById('modalStatus').value = 'terjadwal'; // Set status default
+            document.getElementById('modalSubmit').name = 'add'; // Set nama tombol submit ke 'add'
+
+            // Kosongkan nilai dan pilihan pada elemen <select> menggunakan Select2
+            $('#modalIdTesis').val('').trigger('change');
+
+            // Tampilkan modal
             document.getElementById('modal').style.display = 'flex';
         }
 
+        
         // Fungsi untuk membuka modal edit data
         function openEditModal(id_jadwal, id_tesis, tanggal, waktu, tempat, status) {
             document.getElementById('modalTitle').innerText = 'Edit Jadwal Sidang';
             document.getElementById('modalIdJadwal').value = id_jadwal;
-            document.getElementById('modalIdTesis').value = id_tesis;
             document.getElementById('modalTanggal').value = tanggal;
             document.getElementById('modalWaktu').value = waktu;
             document.getElementById('modalTempat').value = tempat;
             document.getElementById('modalStatus').value = status;
             document.getElementById('modalSubmit').name = 'edit';
+            
+            // Set nilai yang dipilih pada elemen <select> menggunakan Select2
+            $('#modalIdTesis').val(id_tesis).trigger('change');
+            
+            // Inisialisasi ulang Select2 jika diperlukan
+            $('#modalIdTesis').select2({
+                placeholder: "Cari tesis...",
+                allowClear: true,
+                width: '100%'
+            });
+            
             document.getElementById('modal').style.display = 'flex';
         }
 

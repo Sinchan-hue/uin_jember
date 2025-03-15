@@ -1,4 +1,9 @@
 <?php
+session_start(); // Mulai session di sini
+if (!isset($_SESSION['user_id'])) { // Periksa apakah user sudah login
+    header("Location: login.php"); // Redirect ke halaman login jika belum
+    exit();
+}
 // Sisipkan file koneksi
 require_once 'koneksi.php';
 

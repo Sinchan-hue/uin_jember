@@ -1,4 +1,9 @@
 <?php
+session_start(); // Mulai session di sini
+if (!isset($_SESSION['user_id'])) { // Periksa apakah user sudah login
+    header("Location: login.php"); // Redirect ke halaman login jika belum
+    exit();
+}
 include 'koneksi.php';
 
 // Pagination
@@ -19,14 +24,6 @@ $totalQuery = "SELECT COUNT(*) as total FROM penguji $searchCondition";
 $totalResult = $koneksi->query($totalQuery);
 $totalData = $totalResult->fetch_assoc()['total'];
 $totalPages = ceil($totalData / $limit);
-
-// Ambil data tesis untuk dropdown
-$queryTesis = "SELECT id_tesis, judul FROM tesis";
-$resultTesis = $koneksi->query($queryTesis);
-
-// Ambil data dosen untuk dropdown
-$queryDosen = "SELECT id_dosen, nama FROM dosen";
-$resultDosen = $koneksi->query($queryDosen);
 
 // Handle CRUD operations
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -61,6 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>CRUD Penguji</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- jQuery (diperlukan oleh Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style>
         /* Gaya untuk Modal Popup */
         .modal {
@@ -95,14 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: #000;
         }
     </style>
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-    <!-- jQuery (diperlukan oleh Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -154,11 +149,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <td><?php echo $namaDosen; ?></td>
                         <td><?php echo $row['peran']; ?></td>
                         <td>
+                        <button onclick="openEditModal(<?php echo $row['id_penguji']; ?>, '<?php echo $row['id_tesis']; ?>', '<?php echo $row['id_dosen']; ?>', '<?php echo $row['peran']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
                             <form method="POST" action="crud_penguji.php" style="display:inline;">
                                 <input type="hidden" name="id_penguji" value="<?php echo $row['id_penguji']; ?>">
                                 <button type="submit" name="delete" class="btn-hapus"><i class="fas fa-trash"></i></button>
                             </form>
-                            <button onclick="openEditModal(<?php echo $row['id_penguji']; ?>, '<?php echo $row['id_tesis']; ?>', '<?php echo $row['id_dosen']; ?>', '<?php echo $row['peran']; ?>')" class="btn-edit"><i class="fas fa-edit"></i></button>
+                            
                         </td>
                     </tr>
                     <?php endwhile; ?>
@@ -183,8 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="id_tesis">Tesis:</label>
                         <select name="id_tesis" id="modalIdTesis" required>
-                            <option value="">Pilih Tesis</option> <!-- Tambahkan opsi default -->
-                            <?php while ($rowTesis = $resultTesis->fetch_assoc()): ?>
+                            <option value="">Pilih Tesis</option>
+                            <?php
+                            // Ambil data tesis untuk dropdown
+                            $queryTesis = "SELECT id_tesis, judul FROM tesis";
+                            $resultTesis = $koneksi->query($queryTesis);
+                            while ($rowTesis = $resultTesis->fetch_assoc()): ?>
                                 <option value="<?php echo $rowTesis['id_tesis']; ?>"><?php echo $rowTesis['judul']; ?></option>
                             <?php endwhile; ?>
                         </select>
@@ -193,30 +193,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="id_dosen">Dosen:</label>
                         <select name="id_dosen" id="modalIdDosen" required>
-                            <option value="">Pilih Dosen</option> <!-- Tambahkan opsi default -->
-                            <?php while ($rowDosen = $resultDosen->fetch_assoc()): ?>
+                            <option value="">Pilih Dosen</option>
+                            <?php
+                            // Ambil data dosen untuk dropdown
+                            $queryDosen = "SELECT id_dosen, nama FROM dosen";
+                            $resultDosen = $koneksi->query($queryDosen);
+                            while ($rowDosen = $resultDosen->fetch_assoc()): ?>
                                 <option value="<?php echo $rowDosen['id_dosen']; ?>"><?php echo $rowDosen['nama']; ?></option>
                             <?php endwhile; ?>
                         </select>
                     </div>
 
-                    <script>
-                        $(document).ready(function() {
-                            // Inisialisasi Select2 untuk Tesis
-                            $('#modalIdTesis').select2({
-                                placeholder: "Cari tesis...", // Teks placeholder
-                                allowClear: true, // Memungkinkan pengguna untuk menghapus pilihan
-                                width: '100%' // Lebar dropdown
-                            });
-
-                            // Inisialisasi Select2 untuk Dosen
-                            $('#modalIdDosen').select2({
-                                placeholder: "Cari dosen...", // Teks placeholder
-                                allowClear: true, // Memungkinkan pengguna untuk menghapus pilihan
-                                width: '100%' // Lebar dropdown
-                            });
-                        });
-                    </script>
                     <div class="form-group">
                         <label for="peran">Peran:</label>
                         <select name="peran" id="modalPeran" required>
@@ -240,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.getElementById('modalIdPenguji').value = '';
             document.getElementById('modalIdTesis').value = '';
             document.getElementById('modalIdDosen').value = '';
-            document.getElementById('modalPeran').value = 'ketua_penguji';
+            document.getElementById('modalPeran').value = '';
             document.getElementById('modalSubmit').name = 'add';
             document.getElementById('modal').style.display = 'flex';
         }
@@ -254,12 +241,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             document.getElementById('modalPeran').value = peran;
             document.getElementById('modalSubmit').name = 'edit';
             document.getElementById('modal').style.display = 'flex';
+
+            // Set nilai dropdown menggunakan Select2
+            $('#modalIdTesis').val(id_tesis).trigger('change');
+            $('#modalIdDosen').val(id_dosen).trigger('change');
         }
 
         // Fungsi untuk menutup modal
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
+
+        // Inisialisasi Select2 untuk dropdown
+        $(document).ready(function() {
+            $('#modalIdTesis').select2({
+                placeholder: "Cari tesis...",
+                allowClear: true,
+                width: '100%'
+            });
+
+            $('#modalIdDosen').select2({
+                placeholder: "Cari dosen...",
+                allowClear: true,
+                width: '100%'
+            });
+        });
     </script>
 </body>
 </html>

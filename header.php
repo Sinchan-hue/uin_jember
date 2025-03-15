@@ -1,3 +1,7 @@
+<?php
+$nama = $_SESSION['nama'];
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,10 +19,20 @@
             <button class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1>Sistem Informasi Tesis dan Disertasi</h1>
+           
+            <img src="image/logo_pemenanng-fotor-2025031605033.png" 
+                alt="Logo UIN Kiai Haji Achmad Siddiq" 
+                class="logo" 
+                width="30" 
+                height="30"> <!-- Lebar dan tinggi diatur menjadi 50 piksel -->
+            <h1>SYSCA - Sistem Smart Layanan Akademik Pascasarjana</h1>
+            
             <div class="user-info">
                 <i class="fas fa-user"></i>
-                <span>Admin</span>
+                <span><?php echo htmlspecialchars($nama); ?></span>
+                
             </div>
         </div>
     </header>
+</body>
+</html>
