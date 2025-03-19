@@ -192,6 +192,12 @@ footer {
 }
 
 /* Gaya Tabel */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Tambahkan scroll horizontal jika tabel melebihi lebar container */
+    margin-top: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -687,4 +693,13 @@ table tbody tr:nth-child(even) {
     background-color: #e8f5e9;
     color: #2e7d32;
     border: 1px solid #2e7d32;
+}
+
+.sidebar ul ul {
+    margin-left: 20px;
+    display: none;
+}
+
+.sidebar ul li:hover > ul {
+    display: block;
 }

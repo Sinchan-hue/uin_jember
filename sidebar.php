@@ -1,7 +1,6 @@
 <?php
 $role = $_SESSION['role']; // Ambil role dari session
 $user_id = $_SESSION['user_id']; // Ambil user_id dari session
-
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -23,16 +22,46 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
 
                 <?php if ($role == 'admin'): ?>
                     <!-- Menu Admin -->
-                    <li><a href="crud_tesis.php"><i class="fas fa-book"></i> Tesis/Desertasi</a></li>
+                    <li>
+                        <a href="#"><i class="fas fa-book"></i> Ujian Tesis</a>
+                        <ul>
+                            <li><a href="kusus_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
+                            <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Submenu Ujian Disertasi -->
+                    <li>
+                        <a href="#"><i class="fas fa-book"></i> Ujian Disertasi</a>
+                        <ul>
+                            <li><a href="kusus_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
+                            <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="crud_tesis.php"><i class="fas fa-book"></i> Tesis</a></li>
                     <li><a href="crud_mahasiswa.php"><i class="fas fa-users"></i> Mahasiswa</a></li>
-                    <li><a href="crud_dosen.php"><i class="fas fa-chalkboard-teacher"></i> Dosen</a></li>
-                    <li><a href="crud_ujian_tesis.php"><i class="fas fa-book"></i> Tesis</a></li>
-                    <li><a href="crud_disertasi.php"><i class="fas fa-book"></i> Disertasi</a></li>
-                    <li><a href="crud_jadwal.php"><i class="fas fa-calendar-alt"></i> Jadwal Sidang</a></li>
-                    <li><a href="crud_nilai.php"><i class="fas fa-star"></i> Nilai</a></li>
+                    <li><a href="crud_dosen.php"><i class="fas fa-chalkboard-teacher"></i> Dosen</a></li>                    
                     <li><a href="crud_user.php"><i class="fas fa-user"></i> User</a></li>
+                <?php elseif ($role == 'dosen'): ?>
+                    <!-- Menu Dosen -->
+                    <li>
+                        <a href="#"><i class="fas fa-book"></i> Ujian Tesis</a>
+                        <ul>
+                            <li><a href="view_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
+                            <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Submenu Ujian Disertasi -->
+                    <li>
+                        <a href="#"><i class="fas fa-book"></i> Ujian Disertasi</a>
+                        <ul>
+                            <li><a href="view_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
+                            <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
-                
+
                 <!-- Menu Ganti Password (Tampil untuk semua role) -->
                 <li><a href="ubah_password.php"><i class="fas fa-key"></i> Ganti Password</a></li>
 
@@ -42,3 +71,4 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
         </nav>
     </aside>
 </body>
+</html>
