@@ -27,6 +27,7 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                         <ul>
                             <li><a href="kusus_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
                             <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                            <li><a href="peran_tesis.php"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
                         </ul>
                     </li>
                     
@@ -36,6 +37,7 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                         <ul>
                             <li><a href="kusus_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
                             <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                            <li><a href="peran_desertasi.php"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
                         </ul>
                     </li>
                     <li><a href="crud_tesis.php"><i class="fas fa-book"></i> Tesis</a></li>
@@ -49,6 +51,7 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                         <ul>
                             <li><a href="view_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
                             <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                            <li><a href="peran_tesis.php"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
                         </ul>
                     </li>
                     
@@ -58,6 +61,7 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                         <ul>
                             <li><a href="view_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
                             <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                            <li><a href="peran_desertasi.php"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>

@@ -31,6 +31,7 @@ $query = "
         k.penguji_2,
         k.penguji_3,
         k.penguji_4,
+        k.ketua_sidang,  -- Kolom baru
         m.nama AS nama_mahasiswa,
         m.nim,
         t.judul AS judul_tesis,
@@ -42,7 +43,8 @@ $query = "
         d5.nama AS nama_penguji_1,
         d6.nama AS nama_penguji_2,
         d7.nama AS nama_penguji_3,
-        d8.nama AS nama_penguji_4
+        d8.nama AS nama_penguji_4,
+        d9.nama AS nama_ketua_sidang  -- Join untuk ketua sidang
     FROM 
         kusus_desertasi k
     JOIN 
@@ -67,6 +69,8 @@ $query = "
         dosen d7 ON k.penguji_3 = d7.id_dosen
     LEFT JOIN 
         dosen d8 ON k.penguji_4 = d8.id_dosen
+    LEFT JOIN 
+        dosen d9 ON k.ketua_sidang = d9.id_dosen  -- Join untuk ketua sidang
     $searchCondition
     LIMIT $start, $limit";
 $result = $koneksi->query($query);
@@ -123,10 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $penguji_2 = $_POST['penguji_2'] ?? null;
         $penguji_3 = $_POST['penguji_3'] ?? null;
         $penguji_4 = $_POST['penguji_4'] ?? null;
+        $ketua_sidang = $_POST['ketua_sidang'] ?? null;  // Ambil nilai ketua sidang
 
         if (isset($_POST['add'])) {
-            $sql = "INSERT INTO kusus_desertasi (id_tesis, tanggal_ujian, nilai, masa_berlaku, promotor, copromotor, penguji_utama, sekretaris_penguji, penguji_1, penguji_2, penguji_3, penguji_4) 
-                    VALUES ('$id_tesis', '$tanggal_ujian', '$nilai', '$masa_berlaku', '$promotor', '$copromotor', '$penguji_utama', '$sekretaris_penguji', '$penguji_1', '$penguji_2', '$penguji_3', '$penguji_4')";
+            $sql = "INSERT INTO kusus_desertasi (id_tesis, tanggal_ujian, nilai, masa_berlaku, promotor, copromotor, penguji_utama, sekretaris_penguji, penguji_1, penguji_2, penguji_3, penguji_4, ketua_sidang) 
+                    VALUES ('$id_tesis', '$tanggal_ujian', '$nilai', '$masa_berlaku', '$promotor', '$copromotor', '$penguji_utama', '$sekretaris_penguji', '$penguji_1', '$penguji_2', '$penguji_3', '$penguji_4', '$ketua_sidang')";
             $koneksi->query($sql);
         } elseif (isset($_POST['edit'])) {
             $id = $_POST['id'];
@@ -134,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     SET id_tesis='$id_tesis', tanggal_ujian='$tanggal_ujian', nilai='$nilai', masa_berlaku='$masa_berlaku', 
                         promotor='$promotor', copromotor='$copromotor', penguji_utama='$penguji_utama', 
                         sekretaris_penguji='$sekretaris_penguji', penguji_1='$penguji_1', penguji_2='$penguji_2', 
-                        penguji_3='$penguji_3', penguji_4='$penguji_4' 
+                        penguji_3='$penguji_3', penguji_4='$penguji_4', ketua_sidang='$ketua_sidang' 
                     WHERE id=$id";
             $koneksi->query($sql);
         }
@@ -239,14 +244,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <th>Judul Tesis</th>
                             <th>Program Studi</th>
                             <th>Tanggal Ujian</th>
-                            <th>Promotor</th>
-                            <th>Co-Promotor</th>
-                            <th>Penguji Utama</th>
-                            <th>Sekretaris Penguji</th>
+                            <th>Ketua Sidang</th>  <!-- Kolom baru -->                    
+                            <th>Penguji Utama</th>                            
                             <th>Penguji 1</th>
                             <th>Penguji 2</th>
                             <th>Penguji 3</th>
                             <th>Penguji 4</th>
+                            <th>Promotor</th>
+                            <th>Co-Promotor</th>
+                            
+                            <th>Sekretaris Penguji</th>        
                             <th>Nilai</th>
                             <th>Masa Berlaku</th>
                             <th>Aksi</th>
@@ -264,14 +271,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?php echo $row['judul_tesis']; ?></td>
                             <td><?php echo $row['prodi']; ?></td>
                             <td><?php echo date('d-m-Y', strtotime($row['tanggal_ujian'])); ?></td>
-                            <td><?php echo $row['nama_promotor']; ?></td>
-                            <td><?php echo $row['nama_copromotor']; ?></td>
-                            <td><?php echo $row['nama_penguji_utama']; ?></td>
-                            <td><?php echo $row['nama_sekretaris_penguji']; ?></td>
+                            <td><?php echo $row['nama_ketua_sidang']; ?></td>  <!-- Tampilkan nama ketua sidang -->                          
+                            <td><?php echo $row['nama_penguji_utama']; ?></td>                            
                             <td><?php echo $row['nama_penguji_1']; ?></td>
                             <td><?php echo $row['nama_penguji_2']; ?></td>
                             <td><?php echo $row['nama_penguji_3']; ?></td>
                             <td><?php echo $row['nama_penguji_4']; ?></td>
+                            <td><?php echo $row['nama_promotor']; ?></td>
+                            <td><?php echo $row['nama_copromotor']; ?></td>
+                            <td><?php echo $row['nama_sekretaris_penguji']; ?></td>  
+                            
                             <td><?php echo $row['nilai']; ?></td>
                             <td><?php echo date('d-m-Y', strtotime($row['masa_berlaku'])); ?></td>
                             <td>
@@ -292,7 +301,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     '<?php echo $row['penguji_1']; ?>',
                                     '<?php echo $row['penguji_2']; ?>',
                                     '<?php echo $row['penguji_3']; ?>',
-                                    '<?php echo $row['penguji_4']; ?>'
+                                    '<?php echo $row['penguji_4']; ?>',
+                                    '<?php echo $row['ketua_sidang']; ?>'  // Tambahkan parameter ketua sidang
                                 )" class="btn-edit"><i class="fas fa-edit"></i></button>
                             </td>
                         </tr>
@@ -340,18 +350,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="date" name="masa_berlaku" id="modalMasaBerlaku" required>
                     </div>
                     <div class="form-group">
-                        <label for="promotor">Promotor:</label>
-                        <select name="promotor" id="modalPromotor" required>
-                            <option value="">Pilih Promotor</option>
-                            <?php foreach ($dosenList as $dosen): ?>
-                                <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="copromotor">Co-Promotor:</label>
-                        <select name="copromotor" id="modalCopromotor">
-                            <option value="">Pilih Co-Promotor</option>
+                        <label for="sekretaris_penguji">Sekretaris Penguji:</label>
+                        <select name="sekretaris_penguji" id="modalSekretarisPenguji" required>
+                            <option value="">Pilih Sekretaris Penguji</option>
                             <?php foreach ($dosenList as $dosen): ?>
                                 <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
                             <?php endforeach; ?>
@@ -361,15 +362,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="penguji_utama">Penguji Utama:</label>
                         <select name="penguji_utama" id="modalPengujiUtama" required>
                             <option value="">Pilih Penguji Utama</option>
-                            <?php foreach ($dosenList as $dosen): ?>
-                                <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="sekretaris_penguji">Sekretaris Penguji:</label>
-                        <select name="sekretaris_penguji" id="modalSekretarisPenguji" required>
-                            <option value="">Pilih Sekretaris Penguji</option>
                             <?php foreach ($dosenList as $dosen): ?>
                                 <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
                             <?php endforeach; ?>
@@ -411,6 +403,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="promotor">Promotor:</label>
+                        <select name="promotor" id="modalPromotor" required>
+                            <option value="">Pilih Promotor</option>
+                            <?php foreach ($dosenList as $dosen): ?>
+                                <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="copromotor">Co-Promotor:</label>
+                        <select name="copromotor" id="modalCopromotor">
+                            <option value="">Pilih Co-Promotor</option>
+                            <?php foreach ($dosenList as $dosen): ?>
+                                <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ketua_sidang">Ketua Sidang:</label>
+                        <select name="ketua_sidang" id="modalKetuaSidang">
+                            <option value="">Pilih Ketua Sidang</option>
+                            <?php foreach ($dosenList as $dosen): ?>
+                                <option value="<?php echo $dosen['id_dosen']; ?>"><?php echo $dosen['nama']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                     <button type="submit" name="add" id="modalSubmit" class="btn-simpan">Simpan</button>
                     <button type="button" onclick="closeModal()" class="btn-batal">Batal</button>
                 </form>
@@ -423,30 +442,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         // Fungsi untuk membuka modal tambah data
         function openAddModal() {
+            // Set judul modal
             document.getElementById('modalTitle').innerText = 'Tambah Kusus Desertasi';
+
+            // Reset nilai input
             document.getElementById('modalId').value = '';
-            document.getElementById('modalIdTesis').selectedIndex = 0;
             document.getElementById('modalTanggalUjian').value = '';
             document.getElementById('modalNilai').value = '';
             document.getElementById('modalMasaBerlaku').value = '';
-            document.getElementById('modalPromotor').selectedIndex = 0;
-            document.getElementById('modalCopromotor').selectedIndex = 0;
-            document.getElementById('modalPengujiUtama').selectedIndex = 0;
-            document.getElementById('modalSekretarisPenguji').selectedIndex = 0;
-            document.getElementById('modalPenguji1').selectedIndex = 0;
-            document.getElementById('modalPenguji2').selectedIndex = 0;
-            document.getElementById('modalPenguji3').selectedIndex = 0;
-            document.getElementById('modalPenguji4').selectedIndex = 0;
+
+            // Reset nilai dropdown menggunakan Select2
+            $('#modalIdTesis').val('').trigger('change');  // Reset dropdown tesis
+            $('#modalPromotor').val('').trigger('change');  // Reset dropdown promotor
+            $('#modalCopromotor').val('').trigger('change');  // Reset dropdown co-promotor
+            $('#modalPengujiUtama').val('').trigger('change');  // Reset dropdown penguji utama
+            $('#modalSekretarisPenguji').val('').trigger('change');  // Reset dropdown sekretaris penguji
+            $('#modalPenguji1').val('').trigger('change');  // Reset dropdown penguji 1
+            $('#modalPenguji2').val('').trigger('change');  // Reset dropdown penguji 2
+            $('#modalPenguji3').val('').trigger('change');  // Reset dropdown penguji 3
+            $('#modalPenguji4').val('').trigger('change');  // Reset dropdown penguji 4
+            $('#modalKetuaSidang').val('').trigger('change');  // Reset dropdown ketua sidang
+
+            // Set nama tombol submit
             document.getElementById('modalSubmit').name = 'add';
+
+            // Tampilkan modal
             document.getElementById('modal').style.display = 'flex';
         }
 
         // Fungsi untuk membuka modal edit data
-        function openEditModal(id, id_tesis, tanggal_ujian, nilai, masa_berlaku, promotor, copromotor, penguji_utama, sekretaris_penguji, penguji_1, penguji_2, penguji_3, penguji_4) {
-            // Set judul modal
+        function openEditModal(id, id_tesis, tanggal_ujian, nilai, masa_berlaku, promotor, copromotor, penguji_utama, sekretaris_penguji, penguji_1, penguji_2, penguji_3, penguji_4, ketua_sidang) {
             document.getElementById('modalTitle').innerText = 'Edit Kusus Desertasi';
-
-            // Set nilai input
             document.getElementById('modalId').value = id;
             document.getElementById('modalTanggalUjian').value = tanggal_ujian;
             document.getElementById('modalNilai').value = nilai;
@@ -462,11 +488,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $('#modalPenguji2').val(penguji_2).trigger('change');
             $('#modalPenguji3').val(penguji_3).trigger('change');
             $('#modalPenguji4').val(penguji_4).trigger('change');
+            $('#modalKetuaSidang').val(ketua_sidang).trigger('change');  // Set ketua sidang
 
-            // Set nama tombol submit
             document.getElementById('modalSubmit').name = 'edit';
-
-            // Tampilkan modal
             document.getElementById('modal').style.display = 'flex';
         }
 
@@ -483,7 +507,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 width: '100%'
             });
 
-            $('#modalPromotor, #modalCopromotor, #modalPengujiUtama, #modalSekretarisPenguji, #modalPenguji1, #modalPenguji2, #modalPenguji3, #modalPenguji4').select2({
+            $('#modalPromotor, #modalCopromotor, #modalPengujiUtama, #modalSekretarisPenguji, #modalPenguji1, #modalPenguji2, #modalPenguji3, #modalPenguji4, #modalKetuaSidang').select2({
                 placeholder: "Cari dosen...",
                 allowClear: true,
                 width: '100%'
