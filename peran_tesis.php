@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'init.php'; // Ganti dari config.php ke init.php
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();

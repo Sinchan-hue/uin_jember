@@ -1,10 +1,13 @@
 <?php
-session_start(); // Mulai session di sini
+require_once 'init.php'; // Ganti dari config.php ke init.php
+
+
 if (!isset($_SESSION['user_id'])) { // Periksa apakah user sudah login
     header("Location: login.php"); // Redirect ke halaman login jika belum
     exit();
 }
 include 'koneksi.php';
+
 
 // Pagination
 $limit = 10;

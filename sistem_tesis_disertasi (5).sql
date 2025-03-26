@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 15, 2025 at 05:00 PM
+-- Generation Time: Mar 26, 2025 at 07:10 AM
 -- Server version: 5.7.33
 -- PHP Version: 8.3.17
 
@@ -110,24 +110,58 @@ INSERT INTO `dosen` (`id_dosen`, `nama`, `nidn`, `email`, `telepon`, `bidang_kea
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jadwal_sidang`
+-- Table structure for table `kusus_desertasi`
 --
 
-CREATE TABLE `jadwal_sidang` (
-  `id_jadwal` int(11) NOT NULL,
-  `id_tesis` int(11) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL,
-  `waktu` time DEFAULT NULL,
-  `tempat` varchar(100) DEFAULT NULL,
-  `status` enum('terjadwal','selesai') DEFAULT 'terjadwal'
+CREATE TABLE `kusus_desertasi` (
+  `id` int(11) NOT NULL,
+  `id_tesis` int(11) NOT NULL,
+  `tanggal_ujian` date NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `masa_berlaku` date DEFAULT NULL,
+  `promotor` int(11) NOT NULL,
+  `copromotor` int(11) DEFAULT NULL,
+  `penguji_utama` int(11) NOT NULL,
+  `sekretaris_penguji` int(11) NOT NULL,
+  `penguji_1` int(11) DEFAULT NULL,
+  `penguji_2` int(11) DEFAULT NULL,
+  `penguji_3` int(11) DEFAULT NULL,
+  `penguji_4` int(11) DEFAULT NULL,
+  `ketua_sidang` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `jadwal_sidang`
+-- Dumping data for table `kusus_desertasi`
 --
 
-INSERT INTO `jadwal_sidang` (`id_jadwal`, `id_tesis`, `tanggal`, `waktu`, `tempat`, `status`) VALUES
-(1, 1, '2025-03-11', '01:52:00', 'GOR', 'terjadwal');
+INSERT INTO `kusus_desertasi` (`id`, `id_tesis`, `tanggal_ujian`, `nilai`, `masa_berlaku`, `promotor`, `copromotor`, `penguji_utama`, `sekretaris_penguji`, `penguji_1`, `penguji_2`, `penguji_3`, `penguji_4`, `ketua_sidang`) VALUES
+(1, 1, '2025-03-20', 90, '2026-03-20', 1, 2, 3, 4, 5, 6, 7, 8, 17);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kusus_tesis`
+--
+
+CREATE TABLE `kusus_tesis` (
+  `id` int(11) NOT NULL,
+  `id_tesis` int(11) NOT NULL,
+  `tanggal_ujian` date NOT NULL,
+  `id_penguji_utama` int(11) NOT NULL,
+  `id_pembimbing1_penguji` int(11) NOT NULL,
+  `id_pembimbing2_penguji` int(11) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `masa_berlaku` date DEFAULT NULL,
+  `ketua_sidang` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kusus_tesis`
+--
+
+INSERT INTO `kusus_tesis` (`id`, `id_tesis`, `tanggal_ujian`, `id_penguji_utama`, `id_pembimbing1_penguji`, `id_pembimbing2_penguji`, `nilai`, `masa_berlaku`, `ketua_sidang`) VALUES
+(2, 4, '2025-03-20', 1, 2, 5, 90, '2026-03-08', 12),
+(3, 1, '2025-03-20', 4, 5, 6, 95, '2026-03-19', 9);
 
 -- --------------------------------------------------------
 
@@ -153,28 +187,17 @@ INSERT INTO `mahasiswa` (`id_mahasiswa`, `nama`, `nim`, `email`, `telepon`) VALU
 (3, 'Paijo', '123456787', 'john.doe@example.com', '081234567890'),
 (4, 'joni', '08043046', 'john.doel@example.com', '081234567890'),
 (5, 'Jack', '10988393', 'aaaa@email.com', '081234567890'),
-(6, 'Jeki', '09234567', 'john1.doe@example.com', '081234567890');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `nilai`
---
-
-CREATE TABLE `nilai` (
-  `id_nilai` int(11) NOT NULL,
-  `id_tesis` int(11) DEFAULT NULL,
-  `id_dosen` int(11) DEFAULT NULL,
-  `nilai` decimal(4,2) DEFAULT NULL,
-  `catatan` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `nilai`
---
-
-INSERT INTO `nilai` (`id_nilai`, `id_tesis`, `id_dosen`, `nilai`, `catatan`) VALUES
-(1, 1, 1, 90.00, 'anmh');
+(6, 'Jeki', '09234567', 'john1.doe@example.com', '081234567890'),
+(9, 'Ahmad Fauzi', '210101001', 'ahmad.fauzi@example.com', '081234567890'),
+(10, 'Budi Santoso', '210101002', 'budi.santoso@example.com', '081298765432'),
+(11, 'Citra Dewi', '210101003', 'citra.dewi@example.com', '082134567890'),
+(12, 'Dewi Lestari', '210101004', 'dewi.lestari@example.com', '081356789012'),
+(13, 'Eko Prasetyo', '210101005', 'eko.prasetyo@example.com', '081278945612'),
+(14, 'Fajar Ramadhan', '210101006', 'fajar.ramadhan@example.com', '082112345678'),
+(15, 'Gita Purnama', '210101007', 'gita.purnama@example.com', '081367890123'),
+(16, 'Hendra Wijaya', '210101008', 'hendra.wijaya@example.com', '081234567891'),
+(17, 'Indah Sari', '210101009', 'indah.sari@example.com', '082198765432'),
+(18, 'Joko Setiawan', '210101010', 'joko.setiawan@example.com', '081256789013');
 
 -- --------------------------------------------------------
 
@@ -233,57 +256,12 @@ INSERT INTO `tesis` (`id_tesis`, `judul`, `abstrak`, `tahun`, `id_mahasiswa`, `i
 (5, 'Desertasi', 'bla', '2024', 3, 9, 'diajukan'),
 (6, 'Desertasi2', 'Desertasi2', '2024', 4, 12, 'diajukan'),
 (7, 'Desertasi 4', 'zczczv', '2004', 5, 12, 'diajukan'),
-(8, 'Desertasi 5', 'xxx', '2004', 6, 11, 'diajukan');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ujian_disertasi`
---
-
-CREATE TABLE `ujian_disertasi` (
-  `id_ujian` int(11) NOT NULL,
-  `id_tesis` int(11) DEFAULT NULL,
-  `jenis_ujian` enum('ujian_kualifikasi','ujian_proposal','seminar_hasil','ujian_tertutup','ujian_terbuka') DEFAULT NULL,
-  `tanggal_ujian` date DEFAULT NULL,
-  `id_dosen` int(11) DEFAULT NULL,
-  `peran_dosen` enum('promotor','copromotor','penguji_utama','sekretaris_penguji','penguji_1','penguji_2','penguji_3','penguji_4') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ujian_disertasi`
---
-
-INSERT INTO `ujian_disertasi` (`id_ujian`, `id_tesis`, `jenis_ujian`, `tanggal_ujian`, `id_dosen`, `peran_dosen`) VALUES
-(2, 5, 'ujian_kualifikasi', '2025-03-14', 1, 'promotor'),
-(3, 6, 'ujian_kualifikasi', '2025-03-15', 2, 'copromotor'),
-(4, 8, 'ujian_kualifikasi', '2025-03-15', 3, 'promotor'),
-(5, 5, 'ujian_kualifikasi', '2025-03-15', 3, 'copromotor'),
-(6, 5, 'ujian_kualifikasi', '2025-03-15', 4, 'penguji_utama');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ujian_tesis`
---
-
-CREATE TABLE `ujian_tesis` (
-  `id_ujian` int(11) NOT NULL,
-  `id_tesis` int(11) DEFAULT NULL,
-  `jenis_ujian` enum('ujian_kualifikasi','ujian_proposal','seminar_hasil','ujian_tertutup','ujian_terbuka') DEFAULT NULL,
-  `tanggal_ujian` date DEFAULT NULL,
-  `id_dosen` int(11) DEFAULT NULL,
-  `peran_dosen` enum('nama_ketua_sidang','pembimbing_penguji_1','pembimbing_penguji_2','penguji') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ujian_tesis`
---
-
-INSERT INTO `ujian_tesis` (`id_ujian`, `id_tesis`, `jenis_ujian`, `tanggal_ujian`, `id_dosen`, `peran_dosen`) VALUES
-(1, 4, 'ujian_kualifikasi', '2025-03-15', 4, 'pembimbing_penguji_1'),
-(2, 4, 'ujian_kualifikasi', '2025-03-15', 1, 'pembimbing_penguji_2'),
-(3, 4, 'ujian_kualifikasi', '2025-03-15', 3, 'penguji');
+(8, 'Desertasi 5', 'xxx', '2004', 6, 11, 'diajukan'),
+(9, 'Pengaruh Gaya Belajar terhadap Prestasi Akademik Mahasiswa', 'Tesis ini membahas hubungan antara gaya belajar mahasiswa dengan pencapaian akademik.', '2021', 12, 4, 'ditolak'),
+(10, 'Optimalisasi Produksi Pertanian dengan Teknologi IoT', 'Penelitian ini mengembangkan solusi berbasis Internet of Things (IoT) untuk meningkatkan efisiensi pertanian.', '2023', 13, 5, 'diajukan'),
+(11, 'Analisis Sentimen Media Sosial terhadap Keputusan Konsumen', 'Penelitian ini mengeksplorasi pengaruh sentimen media sosial terhadap keputusan pembelian konsumen.', '2023', 9, 2, 'diajukan'),
+(12, 'Implementasi Blockchain dalam Sistem Keamanan Data', 'Studi ini membahas bagaimana teknologi blockchain dapat meningkatkan keamanan data.', '2022', 10, 1, 'diterima'),
+(13, 'Efektivitas Hukum Cyber dalam Menangani Kejahatan Digital', 'Penelitian ini mengkaji sejauh mana hukum siber efektif dalam menangani kasus kejahatan digital.', '2023', 11, 3, 'selesai');
 
 -- --------------------------------------------------------
 
@@ -306,8 +284,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `nama`, `role`, `created_at`) VALUES
 (1, 'prof.babun.suharto', '1', 'Prof. Dr. H. Babun Suharto, S.E., M.M.', 'dosen', '2025-03-15 05:20:00'),
-(2, 'abdul.wadud.nafis', 'user', 'Dr. Abdul Wadud Nafis, Lc., MEI.', 'dosen', '2025-03-15 05:20:00'),
-(3, 'moch.chotib', 'user', 'Prof. Dr. Moch. Chotib, S.Ag., M.M.', 'dosen', '2025-03-15 05:20:00'),
+(2, 'abdul.wadud.nafis', '1', 'Dr. Abdul Wadud Nafis, Lc., MEI.', 'dosen', '2025-03-15 05:20:00'),
+(3, 'moch.chotib', '1', 'Prof. Dr. Moch. Chotib, S.Ag., M.M.', 'dosen', '2025-03-15 05:20:00'),
 (4, 'khairunnisa.musari', 'user', 'Dr. Khairunnisa Musari, S.T.,M.MT.', 'dosen', '2025-03-15 05:20:00'),
 (5, 'misbahul.munir', 'user', 'Dr. Misbahul Munir, M.M.', 'dosen', '2025-03-15 05:20:00'),
 (6, 'hersa.farida.qoriani', 'user', 'Dr. Hersa Farida Qoriani, S.Kom., M.E.I.', 'dosen', '2025-03-15 05:20:00'),
@@ -383,11 +361,21 @@ ALTER TABLE `dosen`
   ADD UNIQUE KEY `nidn` (`nidn`);
 
 --
--- Indexes for table `jadwal_sidang`
+-- Indexes for table `kusus_desertasi`
 --
-ALTER TABLE `jadwal_sidang`
-  ADD PRIMARY KEY (`id_jadwal`),
+ALTER TABLE `kusus_desertasi`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_tesis` (`id_tesis`);
+
+--
+-- Indexes for table `kusus_tesis`
+--
+ALTER TABLE `kusus_tesis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tesis` (`id_tesis`),
+  ADD KEY `fk_penguji_utama` (`id_penguji_utama`),
+  ADD KEY `fk_pembimbing1` (`id_pembimbing1_penguji`),
+  ADD KEY `fk_pembimbing2` (`id_pembimbing2_penguji`);
 
 --
 -- Indexes for table `mahasiswa`
@@ -395,14 +383,6 @@ ALTER TABLE `jadwal_sidang`
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id_mahasiswa`),
   ADD UNIQUE KEY `nim` (`nim`);
-
---
--- Indexes for table `nilai`
---
-ALTER TABLE `nilai`
-  ADD PRIMARY KEY (`id_nilai`),
-  ADD KEY `id_tesis` (`id_tesis`),
-  ADD KEY `id_dosen` (`id_dosen`);
 
 --
 -- Indexes for table `prodi`
@@ -417,20 +397,6 @@ ALTER TABLE `tesis`
   ADD PRIMARY KEY (`id_tesis`),
   ADD KEY `id_mahasiswa` (`id_mahasiswa`),
   ADD KEY `id_prodi` (`id_prodi`);
-
---
--- Indexes for table `ujian_disertasi`
---
-ALTER TABLE `ujian_disertasi`
-  ADD PRIMARY KEY (`id_ujian`);
-
---
--- Indexes for table `ujian_tesis`
---
-ALTER TABLE `ujian_tesis`
-  ADD PRIMARY KEY (`id_ujian`),
-  ADD KEY `fk_tesis` (`id_tesis`),
-  ADD KEY `fk_dosen` (`id_dosen`);
 
 --
 -- Indexes for table `user`
@@ -450,22 +416,22 @@ ALTER TABLE `dosen`
   MODIFY `id_dosen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
--- AUTO_INCREMENT for table `jadwal_sidang`
+-- AUTO_INCREMENT for table `kusus_desertasi`
 --
-ALTER TABLE `jadwal_sidang`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `kusus_desertasi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `kusus_tesis`
+--
+ALTER TABLE `kusus_tesis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `nilai`
---
-ALTER TABLE `nilai`
-  MODIFY `id_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_mahasiswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `prodi`
@@ -477,19 +443,7 @@ ALTER TABLE `prodi`
 -- AUTO_INCREMENT for table `tesis`
 --
 ALTER TABLE `tesis`
-  MODIFY `id_tesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `ujian_disertasi`
---
-ALTER TABLE `ujian_disertasi`
-  MODIFY `id_ujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `ujian_tesis`
---
-ALTER TABLE `ujian_tesis`
-  MODIFY `id_ujian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tesis` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -502,17 +456,20 @@ ALTER TABLE `user`
 --
 
 --
--- Constraints for table `jadwal_sidang`
+-- Constraints for table `kusus_desertasi`
 --
-ALTER TABLE `jadwal_sidang`
-  ADD CONSTRAINT `jadwal_sidang_ibfk_1` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`);
+ALTER TABLE `kusus_desertasi`
+  ADD CONSTRAINT `kusus_desertasi_ibfk_1` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`) ON DELETE CASCADE,
+  ADD CONSTRAINT `kusus_desertasi_ibfk_2` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`) ON DELETE CASCADE;
 
 --
--- Constraints for table `nilai`
+-- Constraints for table `kusus_tesis`
 --
-ALTER TABLE `nilai`
-  ADD CONSTRAINT `nilai_ibfk_1` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`),
-  ADD CONSTRAINT `nilai_ibfk_2` FOREIGN KEY (`id_dosen`) REFERENCES `dosen` (`id_dosen`);
+ALTER TABLE `kusus_tesis`
+  ADD CONSTRAINT `fk_pembimbing1` FOREIGN KEY (`id_pembimbing1_penguji`) REFERENCES `dosen` (`id_dosen`),
+  ADD CONSTRAINT `fk_pembimbing2` FOREIGN KEY (`id_pembimbing2_penguji`) REFERENCES `dosen` (`id_dosen`),
+  ADD CONSTRAINT `fk_penguji_utama` FOREIGN KEY (`id_penguji_utama`) REFERENCES `dosen` (`id_dosen`),
+  ADD CONSTRAINT `fk_tesis` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`);
 
 --
 -- Constraints for table `tesis`
@@ -520,13 +477,6 @@ ALTER TABLE `nilai`
 ALTER TABLE `tesis`
   ADD CONSTRAINT `tesis_ibfk_1` FOREIGN KEY (`id_mahasiswa`) REFERENCES `mahasiswa` (`id_mahasiswa`),
   ADD CONSTRAINT `tesis_ibfk_2` FOREIGN KEY (`id_prodi`) REFERENCES `prodi` (`id`);
-
---
--- Constraints for table `ujian_tesis`
---
-ALTER TABLE `ujian_tesis`
-  ADD CONSTRAINT `fk_dosen` FOREIGN KEY (`id_dosen`) REFERENCES `dosen` (`id_dosen`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tesis` FOREIGN KEY (`id_tesis`) REFERENCES `tesis` (`id_tesis`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

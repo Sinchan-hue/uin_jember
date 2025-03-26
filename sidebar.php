@@ -1,4 +1,5 @@
 <?php
+require_once 'init.php'; // Ganti dari config.php ke init.php
 $role = $_SESSION['role']; // Ambil role dari session
 $user_id = $_SESSION['user_id']; // Ambil user_id dari session
 ?>
@@ -25,9 +26,9 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                     <li>
                         <a href="#"><i class="fas fa-book"></i> Ujian Tesis</a>
                         <ul>
-                            <li><a href="kusus_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
-                            <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
-                            <li><a href="peran_tesis.php"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('kusus_tesis.php') ?>"><i class="fas fa-list"></i> Data Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('rekap_tesis.php') ?>"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('peran_tesis.php') ?>"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
                         </ul>
                     </li>
                     
@@ -35,23 +36,23 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                     <li>
                         <a href="#"><i class="fas fa-book"></i> Ujian Disertasi</a>
                         <ul>
-                            <li><a href="kusus_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
-                            <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
-                            <li><a href="peran_desertasi.php"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('kusus_desertasi.php') ?>"><i class="fas fa-list"></i> Data Disertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('rekap_desertasi.php') ?>"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('peran_desertasi.php') ?>"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
                         </ul>
                     </li>
-                    <li><a href="crud_tesis.php"><i class="fas fa-book"></i> Tesis</a></li>
-                    <li><a href="crud_mahasiswa.php"><i class="fas fa-users"></i> Mahasiswa</a></li>
-                    <li><a href="crud_dosen.php"><i class="fas fa-chalkboard-teacher"></i> Dosen</a></li>                    
-                    <li><a href="crud_user.php"><i class="fas fa-user"></i> User</a></li>
+                    <li><a href="view.php?file=<?= encryptFile('crud_tesis.php') ?>"><i class="fas fa-book"></i> Tesis</a></li>
+                    <li><a href="view.php?file=<?= encryptFile('crud_mahasiswa.php') ?>"><i class="fas fa-users"></i> Mahasiswa</a></li>
+                    <li><a href="view.php?file=<?= encryptFile('crud_dosen.php') ?>"><i class="fas fa-chalkboard-teacher"></i> Dosen</a></li>                    
+                    <li><a href="view.php?file=<?= encryptFile('crud_user.php') ?>"><i class="fas fa-user"></i> User</a></li>
                 <?php elseif ($role == 'dosen'): ?>
                     <!-- Menu Dosen -->
                     <li>
                         <a href="#"><i class="fas fa-book"></i> Ujian Tesis</a>
                         <ul>
-                            <li><a href="view_tesis.php"><i class="fas fa-list"></i> Data Tesis</a></li>
-                            <li><a href="rekap_tesis.php"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
-                            <li><a href="peran_tesis.php"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('view_tesis.php') ?>"><i class="fas fa-list"></i> Data Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('rekap_tesis.php') ?>"><i class="fas fa-file-alt"></i> Rekap Tesis</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('peran_tesis.php') ?>"><i class="fas fa-clipboard-list"></i> Peran Tesis</a></li>
                         </ul>
                     </li>
                     
@@ -59,15 +60,15 @@ $user_id = $_SESSION['user_id']; // Ambil user_id dari session
                     <li>
                         <a href="#"><i class="fas fa-book"></i> Ujian Disertasi</a>
                         <ul>
-                            <li><a href="view_desertasi.php"><i class="fas fa-list"></i> Data Disertasi</a></li>
-                            <li><a href="rekap_desertasi.php"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
-                            <li><a href="peran_desertasi.php"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('view_desertasi.php') ?>"><i class="fas fa-list"></i> Data Disertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('rekap_desertasi.php') ?>"><i class="fas fa-file-alt"></i> Rekap Disertasi</a></li>
+                            <li><a href="view.php?file=<?= encryptFile('peran_desertasi.php') ?>"><i class="fas fa-clipboard-list"></i> Peran Desertasi</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
 
                 <!-- Menu Ganti Password (Tampil untuk semua role) -->
-                <li><a href="ubah_password.php"><i class="fas fa-key"></i> Ganti Password</a></li>
+                <li><a href="view.php?file=<?= encryptFile('ubah_password.php') ?>"><i class="fas fa-key"></i> Ganti Password</a></li>
 
                 <!-- Menu Logout (Tampil untuk semua role) -->
                 <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
