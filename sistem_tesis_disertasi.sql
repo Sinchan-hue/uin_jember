@@ -220,7 +220,7 @@ CREATE TABLE `tesis` (
   `tahun` year(4) DEFAULT NULL,
   `id_mahasiswa` int(11) DEFAULT NULL,
   `id_prodi` int(11) DEFAULT NULL,
-  `status` enum('diajukan','diterima','ditolak','selesai') DEFAULT 'diajukan'
+  `status` enum('diajukan','diterima','ditolak','selesai','lulus') DEFAULT 'diajukan'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -233,7 +233,12 @@ INSERT INTO `tesis` (`id_tesis`, `judul`, `abstrak`, `tahun`, `id_mahasiswa`, `i
 (5, 'Desertasi', 'bla', '2024', 3, 9, 'diajukan'),
 (6, 'Desertasi2', 'Desertasi2', '2024', 4, 12, 'diajukan'),
 (7, 'Desertasi 4', 'zczczv', '2004', 5, 12, 'diajukan'),
-(8, 'Desertasi 5', 'xxx', '2004', 6, 11, 'diajukan');
+(8, 'Desertasi 5', 'xxx', '2004', 6, 11, 'diajukan'),
+(9, 'Pengaruh Gaya Belajar terhadap Prestasi Akademik Mahasiswa', 'Tesis ini membahas hubungan antara gaya belajar mahasiswa dengan pencapaian akademik.', '2021', 12, 4, 'ditolak'),
+(10, 'Optimalisasi Produksi Pertanian dengan Teknologi IoT', 'Penelitian ini mengembangkan solusi berbasis Internet of Things (IoT) untuk meningkatkan efisiensi pertanian.', '2023', 13, 5, 'diajukan'),
+(11, 'Analisis Sentimen Media Sosial terhadap Keputusan Konsumen', 'Penelitian ini mengeksplorasi pengaruh sentimen media sosial terhadap keputusan pembelian konsumen.', '2023', 9, 2, 'diajukan'),
+(12, 'Implementasi Blockchain dalam Sistem Keamanan Data', 'Studi ini membahas bagaimana teknologi blockchain dapat meningkatkan keamanan data.', '2022', 10, 1, 'diterima'),
+(13, 'Efektivitas Hukum Cyber dalam Menangani Kejahatan Digital', 'Penelitian ini mengkaji sejauh mana hukum siber efektif dalam menangani kasus kejahatan digital.', '2023', 11, 3, 'selesai');
 
 -- --------------------------------------------------------
 

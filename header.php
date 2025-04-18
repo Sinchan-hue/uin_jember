@@ -25,7 +25,7 @@ $nama = $_SESSION['nama'];
                 class="logo" 
                 width="30" 
                 height="30"> <!-- Lebar dan tinggi diatur menjadi 50 piksel -->
-            <h1>SYSCA - Sistem Smart Layanan Akademik Pascasarjana</h1>
+            <h1>&nbsp;SYSCA - Sistem Smart Layanan Akademik Pascasarjana</h1>
             
             <div class="user-info">
                 <i class="fas fa-user"></i>

@@ -228,6 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="diterima">Diterima</option>
                             <option value="ditolak">Ditolak</option>
                             <option value="selesai">Selesai</option>
+                            <option value="lulus">Lulus</option>
                         </select>
                     </div>
                     <button type="submit" name="add" id="modalSubmit" class="btn-simpan">Simpan</button>

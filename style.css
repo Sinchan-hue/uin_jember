@@ -1,4 +1,5 @@
 /* Gaya Umum */
+/* Gaya Umum */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -11,7 +12,7 @@ body {
 
 /* Header */
 header {
-    background-color: #006400;
+    background: linear-gradient(135deg, #228B22, #f1f0ed); /* Gradien hijau dan emas */
     color: #fff;
     padding: 15px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -21,7 +22,6 @@ header {
     width: 100%;
     z-index: 1000;
     border-bottom: 1px solid white !important;
-   
 }
 
 header::after {
@@ -62,7 +62,7 @@ header::after {
     display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #006400;
+    background: linear-gradient(135deg, #228B22, #f1f1ef); /* Gradien hijau dan emas */
     color: #fff;
     padding: 8px 15px;
     border-radius: 5px;
@@ -77,8 +77,6 @@ header::after {
     font-weight: bold;
 }
 
-
-
 .sidebar-toggle {
     display: none; /* Sembunyikan tombol toggle di desktop */
     background: none;
@@ -91,7 +89,7 @@ header::after {
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background-color: #006400; /* Hijau forest Kemenag */
+    background: linear-gradient(135deg, #228B22, #f9f9f7); /* Gradien hijau dan emas */
     color: #fff;
     height: calc(100vh - 80px); /* Tinggi sidebar dikurangi tinggi header */
     position: fixed;
@@ -121,7 +119,7 @@ header::after {
 }
 
 .sidebar nav ul li a:hover {
-    background-color: #006400; /* Hijau gelap Kemenag */
+    background-color: rgba(255, 255, 255, 0.1); /* Efek hover dengan transparansi */
 }
 
 .sidebar nav ul li a i {
@@ -150,9 +148,8 @@ h2 {
 }
 
 /* Footer */
-/* Gaya untuk Footer */
 footer {
-    background-color: #006400; /* Warna hijau gelap */
+    background: linear-gradient(135deg, #228B22, #f6f6f5); /* Gradien hijau dan emas */
     color: #fff;
     text-align: center;
     padding: 15px 0;
@@ -192,6 +189,12 @@ footer {
 }
 
 /* Gaya Tabel */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Tambahkan scroll horizontal jika tabel melebihi lebar container */
+    margin-top: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -687,4 +690,13 @@ table tbody tr:nth-child(even) {
     background-color: #e8f5e9;
     color: #2e7d32;
     border: 1px solid #2e7d32;
+}
+
+.sidebar ul ul {
+    margin-left: 20px;
+    display: none;
+}
+
+.sidebar ul li:hover > ul {
+    display: block;
 }

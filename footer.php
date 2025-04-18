@@ -1,7 +1,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 SYSCA - UIN Kiai Haji Achmad Siddiq. All rights reserved. <br>Dikembangkan oleh <strong>Tim</strong>.</p>
+            <p>&copy; 2025 SYSCA - UIN Kiai Haji Achmad Siddiq. All rights reserved. <br>Dikembangkan oleh <strong>Mas_dir25</strong>.</p>
         </div>
     </footer>
 
